@@ -20,6 +20,7 @@ const Table = () => (
         <th>DATA DA TRANSAÇÃO</th>
         <th>EDITAR/EXCLUIR</th>
     </tr>
+    
     <tr className="linhaTitulo">
         <td>xxxxxxxxxxxxxxxxx</td>
         <td>xxxxx</td>

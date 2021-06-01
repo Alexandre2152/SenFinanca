@@ -7,48 +7,86 @@ class Add extends Component {
         super(props)
 
         this.state={
-            titulo: "",
-            categoria: "",
-            valor: "",
-            tipo: ""
+            id: 0,
+            titulo: '',
+            categoria: '',
+            valor: '',
+            tipo: ''
         }
 
         this.clickTitulo = this.clickTitulo.bind(this)
         this.clickCategoria = this.clickCategoria.bind(this)
         this.clickValor = this.clickValor.bind(this)
         this.clickTipo = this.clickTipo.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
     }
 
-    clickTitulo(e){
-        this.setState({ titulo: e.target.titulo})
+    clickTitulo(event){
+        this.setState({ titulo: event.target.value})
     }
 
-    clickCategoria(e){
-        this.setState({ categoria: e.target.categoria})
+    clickCategoria(event){
+        this.setState({ categoria: event.target.value})
     }
 
-    clickValor(e){
-        this.setState({ valor: e.target.valor})
+    clickValor(event){
+        this.setState({ valor: event.target.value})
     }
 
-    clickTipo(e){
-        this.setState({ tipo: e.target.tipo})
+    clickTipo(event){
+        this.setState({ tipo: event.target.value})
     }
 
-    handleSubmit(e){
-        e.preventDefault()
+    handleSubmit(event){
 
+        //Pegar o ID
+        const id = this.state.id
+
+        //pegar todas as chaves do localstorage
+        const keys = Object.keys(localStorage)
+        console.log(keys)
+
+        //Converter para numero
+        const keysID = parseInt(keys)
+        // console.log(keysID)
+
+        const localStorageLength = parseInt(localStorage.length)
+
+        //Criar um array com os dados que a ser inseridos
         const dados = {
             titulo: this.state.titulo,
             categoria: this.state.categoria,
             valor: this.state.valor,
             tipo: this.state.tipo,
-
         }
 
-        localStorage.setItem("item", JSON.stringify(dados))
+        //condição para saber se o cadastro existe
+        if(!localStorage.getItem(id)){
+            alert(`Dados gravos com sucesso!`)   
 
-        e.preventDefault()
+            //Inserir no localStorage as informções digitadas no formulario.
+            localStorage.setItem( id , JSON.stringify(dados))
+        }else{
+            for(let i = 0 ; i < localStorage.length ; i++){
+                const obj = JSON.parse(localStorage.getItem(keys[i]))
+                console.log("obj: "+obj.titulo)
+                console.log("localStorage: "+localStorage.length)
+                console.log("localStorage2: "+localStorage.key(i))
+                console.log("keys[i]: "+keys[i])
+    
+                if(keys[i] < localStorageLength){
+                    console.log("teste")
+
+                    //Salvar no localstorage
+                    localStorage.setItem( i+1 , JSON.stringify(dados))
+    
+                }
+            }
+        }
+
+
+
+        event.preventDefault()
     }
 
     render(){
@@ -60,39 +98,33 @@ class Add extends Component {
 <br /><br />
     <div>
         <form onSubmit={this.handleSubmit}>
-            <table className="tabAdd">
-                <tr>
-                    <td>
-                        <label htmlFor=""><p>TITULO</p></label>
-                        <input type="text" value={this.state.titulo} onChange={this.clickTitulo} name="titulo" />
-                    </td>
-                
 
-                    <td>
-                        <label htmlFor=""><p>CATEGORIA</p></label>
-                        <input type="text" value={this.state.categoria} onChange={this.clickCategoria} name="categoria" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label htmlFor=""><p>VALOR</p></label>
-                        <input type="text" value={this.state.valor} onChange={this.clickValor} name="valor" />
-                    </td>
+                    <section className="container row">
+                        {/* <label htmlFor=""><p>TITULO</p></label> */}
+                        <input type="text" className="inputWidth" value={this.state.titulo} onChange={this.clickTitulo} name="titulo" placeholder="TITULO"/>
+                     </section>  
 
-                    <td>
-                        <label htmlFor="" className="label"><p>TIPO</p></label>
-                        <select name="tipo">
-                            <option value=""> </option>
+                     <section className="container row">   
+                        {/* <label htmlFor=""><p>CATEGORIA</p></label> */}
+                        <input type="text" className="inputWidth" value={this.state.categoria} onChange={this.clickCategoria} name="categoria" placeholder="CATEGORIA"/>
+
+                        {/* <label htmlFor=""><p>VALOR</p></label> */}
+                        <input type="text" className="inputWidth" value={this.state.valor} onChange={this.clickValor} name="valor" placeholder="VALOR" />
+
+                        {/* <label htmlFor="" className="label" value={this.state.tipo} onChange={this.clickTipo}><p>TIPO</p></label> */}
+                        <select name="tipo" className="inputWidth" value={this.state.tipo} onChange={this.clickTipo}>
+                            <option value="Escolha um tipo">TIPO</option>
                             <option value="entrada">ENTRADA</option>
                             <option value="saida">SAIDA</option>
                         </select>
-                    </td>
-                </tr>
-            </table>
-            <Link to="/">
-            <button className="btnVoltar">VOLTAR</button>
-            </Link>
-            <button type="submit" className="btnAdd">ADICIONAR</button>
+                    </section>     
+
+                    <section className="container row"> 
+                        <Link to="/">
+                        <button className="btnWidthVoltar">VOLTAR</button>
+                        </Link>
+                        <button type="submit" className="btnWidthAdicionar">ADICIONAR</button>
+                    </section>   
         </form>
     </div>
 

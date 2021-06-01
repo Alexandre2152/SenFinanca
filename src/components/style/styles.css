@@ -123,17 +123,50 @@ table td {
 }
 
 input {
-    width: 50%;
+    width: 100%;
     border-radius: 5px;
-    height: 1.4rem;
+    padding: 0.6rem;
 }
 
-.label {
-    width: 100px;
+.inputWidth {
+    flex: 1;
+    margin: 5px;
 }
 
-.tabAdd {
-    align-items: center;
+.container {
+    max-width: 40rem;
+    margin: 0 auto;
+    display: flex;
+    padding: 0.7rem;
+}
+
+.row {
+    flex-direction: row;
+    justify-content: center;
+}
+
+.btnWidthVoltar {
+    flex: 1;
+    margin: 5px;
+    background-color: #f47979;
+    border-radius: 8px;
+    padding: 0.4rem;
+    width: 300px;
+    height: 3rem;
+    color: #ffff;
+    font-size: medium;
+}
+
+.btnWidthAdicionar {
+    flex: 1;
+    margin: 5px;
+    background-color: #7C79F4;
+    border-radius: 8px;
+    padding: 0.4rem;
+    width: 300px;
+    height: 3rem;
+    color: #ffff;
+    font-size: medium;
 }
 
 
