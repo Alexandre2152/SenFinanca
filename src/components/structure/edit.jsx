@@ -1,19 +1,22 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router-dom'
 
-class Add extends Component {
-
+class Edit extends Component{
     constructor(props){
         super(props)
 
-        this.state={
-            id: 1,
-            titulo: '',
-            categoria: '',
-            valor: '',
-            tipo: ''
-        }
+        const url = window.location.href
+        const id = url.substring(url.lastIndexOf('/')+1)
 
+        const item = JSON.parse(localStorage.getItem(id))
+
+        this.state={
+            id: id,
+            titulo: item.titulo,
+            categoria: item.categoria,
+            valor: item.valor,
+            tipo: item.tipo
+        }
         this.clickTitulo = this.clickTitulo.bind(this)
         this.clickCategoria = this.clickCategoria.bind(this)
         this.clickValor = this.clickValor.bind(this)
@@ -36,19 +39,11 @@ class Add extends Component {
     clickTipo(event){
         this.setState({ tipo: event.target.value})
     }
-
+   
     handleSubmit(event){
 
         //Pegar o ID
         const id = this.state.id
-
-        //pegar todas as chaves do localstorage
-        const keys = Object.keys(localStorage)
-        // console.log(keys)
-
-        //Converter para numero
-        const keysID = parseInt(keys)
-        // console.log(keysID)
 
         //Converter para inteiro os valores do tamanho do array salvo no localstorage
         const localStorageLength = parseInt(localStorage.length)
@@ -70,28 +65,19 @@ class Add extends Component {
             data: dataAtual
         }
 
-        //condição para salvar cadastro no localstorage
-        if(!localStorage.getItem(id)){
-            alert(`Dados gravados com sucesso!`)   
+        localStorage.setItem( id , JSON.stringify(dados))
 
-            //Inserir no localStorage as informções digitadas no formulario.
-            localStorage.setItem( id , JSON.stringify(dados))
-        }else{
-            if(localStorage){
-                alert(`Dados gravados com sucesso!`) 
+        this.props.history.push("/")
 
-                //Inserir no localStorage as informções digitadas no formulario.
-                localStorage.setItem( localStorageLength+1 , JSON.stringify(dados))
-            }
-        }
         event.preventDefault()
     }
-
+    
     render(){
+
         return(
             <>
 
-    <h3 className="subTitulos">PARA ADICIONAR, FAVOR PREENCHER OS CAMPO E CLICAR NO BOTÃO ADICIONAR</h3>
+    <h3 className="subTitulos">PARA EDITAR, FAVOR ALTERAR OS CAMPOS ESPECIFICOS E CLICAR NO BOTÃO EDITAR</h3>
 
 <br /><br />
     <div>
@@ -119,7 +105,7 @@ class Add extends Component {
                         <Link to="/">
                         <button className="btnWidthVoltar">VOLTAR</button>
                         </Link>
-                        <button type="submit" className="btnWidthAdicionar">ADICIONAR</button>
+                        <button type="submit" className="btnWidthAdicionar">EDITAR</button>
                     </section>   
         </form>
     </div>
@@ -129,7 +115,6 @@ class Add extends Component {
 </>
         )
     }
-
 }
 
-export default Add
+export default Edit
